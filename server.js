@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 
+const VisitorRoute = require('./routes/visitor')
 mongoose.connect('mongodb://localhost:27017/testdb', {useNewUrlParser:true, useUnifiedTopology:true})
 const db = mongoose.connection
 
@@ -26,6 +27,8 @@ const hostname = 'localhost'
 app.listen(PORT, () => {
   console.log(`Server running at http://${hostname}:${PORT}/`)
 })
+
+app.use('/api/visitor', VisitorRoute)
 
 app.get('/', (request, response) => {
   response.sendFile(__dirname + '/index.html')
