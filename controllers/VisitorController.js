@@ -2,9 +2,11 @@ const { response } = require('express')
 const Visitor = require('../models/Visitor')
 
 //Show the list of Visitors
-const index = (req, res, next) => {
-    Visitor.find()
+const index = (req, res) => {
+    return Visitor.find()
     .then(response=>{
+        let index = fs.readFileSync('../views/index.ejs', 'utf8')
+        //03.15
         res.json({
             response
         })
@@ -17,25 +19,23 @@ const index = (req, res, next) => {
 }
 
 //Show single visitor
-const show = (req, res, next) => {
-    let visitorID = req.body.visitorID
-    Visitor.findById(visitorID)
-    .then(response => {
-        res.json({
-            response
-        })
-    })
-    .catch(error => {
-        res.json({
-            message: 'An error Occured!'
-        })
-    })
-}
+// const show = (req, res, next) => {
+//     let visitorID = req.body.visitorID
+//     Visitor.findById(visitorID)
+//     .then(response => {
+//         res.json({
+//             response
+//         })
+//     })
+//     .catch(error => {
+//         res.json({
+//             message: 'An error Occured!'
+//         })
+//     })
+// }
 
-const store = (req, res, next) => {
-    let visitor = new Visitor({
-        text: req.body.name
-    })
+const insert = (req, res) => {
+    let visitor = new Visitor(req.body)
     visitor.save()
     .then(response => {
         res.json({
@@ -50,5 +50,5 @@ const store = (req, res, next) => {
 }
 
 module.exports = {
-    index, show, store
+    index, insert
 }
