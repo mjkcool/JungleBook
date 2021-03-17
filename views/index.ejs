@@ -4,17 +4,52 @@
     <meta charset="utf-8">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+    <link rel="stylesheet" type="text/css" href="index.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>움직여요 미림의 숲</title>
+
+    
+    
 </head>
 <body>
+    <script src="visitorview.js"></script>
+    
     <h1>방명록</h1>
-    <% visitors.forEach(function(e){ %>
-        <%= e.text %><br>
-    <% }) %>
-    <form method="POST">
-        <input type="text" name="text" placeholder="💛💚" required/>
-        <button type="submit">작성</button>
-    </form>
+    <div id="page-l" class="page">
+        
+    </div>
+    <div id="page-r-pa" class="page">
+        <div id="page-r"></div>
+        <form method="POST">
+            <input id="bookinput" type="text" name="text" placeholder="" required/>
+            <button type="submit">작성</button>
+        </form>
+    </div>
+    
+    
+
 </body>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        let idx_l=0, idx_r=0
+        let left_p=0, right_p=0
+        //https://gist.github.com/ageldama/4173461
+        <% visitors.forEach(function(e){ %>
+            if(idx_l++ < 7){
+                if(idx_l==1) $("#page-l").append(`<div id="left_p${left_p}">`)
+                $(`#${left_p}`).append("<%= e.text %><br>")
+            }
+            else if(idx_r++ < 7){
+                $(`#${left_p}`).append("</div>")
+                if(idx_r==1) $("#page-r").append(`<div id="left_p${right_p}">`)
+                $(`#${right_p}`).append("<%= e.text %><br>")
+            }
+            else{
+                $(`#${right_p}`).append("</div>")
+                //idx_l = 0; idx_r = 0;
+                //left_p++; right_p++;
+            }
+        <% }) %>
+    })
+</script>
 </html>

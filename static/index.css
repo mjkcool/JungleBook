@@ -1,0 +1,16 @@
+#page-l{
+    background-color: chocolate;
+}
+#page-r-pa{
+    background-color: darkgray;
+}
+
+#bookinput{
+    width: 280px;
+}
+
+.page{
+    float:left;
+    width: 350px;
+    height: 210px;
+}
