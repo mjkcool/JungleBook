@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>움직여요 미림의 숲</title>
+</head>
+<body>
+    <h1>방명록</h1>
+    <% visitors.forEach(function(e){ %>
+        <%= e.text %><br>
+    <% }) %>
+    <form method="POST">
+        <input type="text" name="text" placeholder="💛💚" required/>
+        <button type="submit">작성</button>
+    </form>
+</body>
+</html>

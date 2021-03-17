@@ -5,17 +5,12 @@ const Visitor = require('../models/Visitor')
 const index = (req, res) => {
     return Visitor.find()
     .then(response=>{
-        let index = fs.readFileSync('../views/index.ejs', 'utf8')
-        //03.15
-        res.json({
-            response
-        })
+        res.render('index', {visitors:response})
     })
     .catch(error => {
-        res.json({
-            message: 'An error Occured!'
-        })
+        console.log(err)
     })
+
 }
 
 //Show single visitor
@@ -34,17 +29,17 @@ const index = (req, res) => {
 //     })
 // }
 
-const insert = (req, res) => {
+const insert = (req, res, next) => {
+    console.log('add Visitor text POST '+req.body.text)
+    console.log(req.body)
     let visitor = new Visitor(req.body)
-    visitor.save()
+    return visitor.save()
     .then(response => {
-        res.json({
-            message: 'Visitor added successfully!'
-        })
+        res.redirect('/')
     })
     .catch(error => {
         res.json({
-            message: 'An error occured!'
+            message: '방명록 등록에 실패하였습니다'
         })
     })
 }
