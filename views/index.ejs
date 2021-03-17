@@ -13,13 +13,17 @@
 <body>
     
     <h1>방명록</h1>
-    <div id="page-l-pa" class="page">
-        <div id="page-l"></div>
+    <div>
+        <div id="page-l-pa" class="page">
+            <div id="page-l"></div>
+            <button ><</button>
+        </div>
+        <div id="page-r-pa" class="page">
+            <div id="page-r"></div>
+            <button >></button>
+        </div>
     </div>
-    <div id="page-r-pa" class="page">
-        <div id="page-r"></div>
-        
-    </div>
+    
     
     
 
@@ -33,21 +37,27 @@
 </template>
 
 <script type="text/javascript">
+    let idx_l=0, idx_r=0
+    let left_p=-1, right_p=-1
     $( document ).ready(function() {
-        let idx_l=0, idx_r=0
-        let left_p=-1, right_p=-1
         //https://gist.github.com/ageldama/4173461
         <% visitors.forEach(function(e){ %>
-            if(idx_l++ < 7){
+            if(idx_l++ < 7)
+            {
                 if(idx_l==1) $("#page-l").append(`<div id="left_p${++left_p}">`)
                 $(`#left_p${left_p}`).append("<%= e.text %><br>")
+                
             }
-            else if(idx_r++ < 7){
+            else if(idx_r++ < 7)
+            {
                 if(idx_r==1) $("#page-r").append(`<div id="right_p${++right_p}">`)
                 $(`#right_p${right_p}`).append("<%= e.text %><br>")
-            }
-            else{
-                // idx_l = 0; idx_r = 0;
+
+                if(idx_r<=7){ //7개일때 다음페이지로
+                    idx_l = 0; idx_r = 0;
+                    $(`#left_p${left_p}`).hide()
+                    $(`#right_p${right_p}`).hide()
+                }
             }
             
         <% }) %>
