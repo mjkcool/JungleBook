@@ -9,47 +9,52 @@
     <title>움직여요 미림의 숲</title>
 
     
-    
 </head>
 <body>
-    <script src="visitorview.js"></script>
     
     <h1>방명록</h1>
-    <div id="page-l" class="page">
-        
+    <div id="page-l-pa" class="page">
+        <div id="page-l"></div>
     </div>
     <div id="page-r-pa" class="page">
         <div id="page-r"></div>
-        <form method="POST">
-            <input id="bookinput" type="text" name="text" placeholder="" required/>
-            <button type="submit">작성</button>
-        </form>
+        
     </div>
     
     
 
 </body>
+
+<template id="formhtml">
+    <form method="POST">
+        <input id="bookinput" type="text" name="text" placeholder="" required/>
+        <button type="submit">작성</button>
+    </form>
+</template>
+
 <script type="text/javascript">
     $( document ).ready(function() {
         let idx_l=0, idx_r=0
-        let left_p=0, right_p=0
+        let left_p=-1, right_p=-1
         //https://gist.github.com/ageldama/4173461
         <% visitors.forEach(function(e){ %>
             if(idx_l++ < 7){
-                if(idx_l==1) $("#page-l").append(`<div id="left_p${left_p}">`)
-                $(`#${left_p}`).append("<%= e.text %><br>")
+                if(idx_l==1) $("#page-l").append(`<div id="left_p${++left_p}">`)
+                $(`#left_p${left_p}`).append("<%= e.text %><br>")
             }
             else if(idx_r++ < 7){
-                $(`#${left_p}`).append("</div>")
-                if(idx_r==1) $("#page-r").append(`<div id="left_p${right_p}">`)
-                $(`#${right_p}`).append("<%= e.text %><br>")
+                if(idx_r==1) $("#page-r").append(`<div id="right_p${++right_p}">`)
+                $(`#right_p${right_p}`).append("<%= e.text %><br>")
             }
             else{
-                $(`#${right_p}`).append("</div>")
-                //idx_l = 0; idx_r = 0;
-                //left_p++; right_p++;
+                // idx_l = 0; idx_r = 0;
             }
+            
         <% }) %>
+        
+        let formhtml = $("#formhtml").html()
+        let lastpage = (left_p>right_p)? $('#page-l-pa') : $('#page-r-pa')
+        lastpage.append(formhtml)
     })
 </script>
 </html>
