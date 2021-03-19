@@ -1,8 +1,10 @@
 #page-l-pa{
     background-color: chocolate;
+    position: relative;
 }
 #page-r-pa{
     background-color: darkgray;
+    position: relative;
 }
 
 #bookinput{
@@ -13,4 +15,16 @@
     float:left;
     width: 350px;
     height: 210px;
+}
+
+#toPre{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+#toNext{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
