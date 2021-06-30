@@ -1,6 +1,8 @@
 const { response } = require('express')
 const Notebook = require('../models/Notebook')
 
+const ERR_MSG = "오류가 발생했습니다😥 잠시 후 다시 접속해주세요!"
+
 const index = (req, res) => {
     return res.render('index')
 }
@@ -41,9 +43,17 @@ const show = (req, res, next) => {
 */
 
 const create = (req, res, next) => {
-    //let notebook = new Notebook(req.body)
-    alert(req.query)
-    return res.send(req.query.name)
+    let notebook = new Notebook({name: req.params.name, createDate: Date.now()})
+    //return res.send(JSON.stringify(notebook))
+    return notebook.save()
+    .then(response => {
+        res.send(notebook.name)
+    })
+    .catch(err =>{
+        alert(ERR_MSG)
+        res.json({ message: err })
+    })
+
 }
 
 const insert = (req, res, next) => {

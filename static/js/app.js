@@ -1,4 +1,4 @@
-ERR_MSG = "오류가 발생했습니다😥 잠시 후 다시 접속해주세요!"
+const ERR_MSG = "오류가 발생했습니다😥 잠시 후 다시 접속해주세요!"
 
 //index
 let enterBtn = $('#enter-to-book')
@@ -19,6 +19,6 @@ function openBook(){
 
 function createBook(){
     let bookName = $('#new-notebook-name').val()
-    location.href = `/create?name=${bookName}`
+    location.href = `/create/${bookName}`
 }
 

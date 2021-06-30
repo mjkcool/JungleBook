@@ -12,8 +12,6 @@ router.route('/all')
 
 //노트북 조회
 router.route('/:name').get(NotebookController.show)
-
-router.route('/create').get(NotebookController.create)
-
+router.route('/create/:name').get(NotebookController.create)
 
 module.exports = router
