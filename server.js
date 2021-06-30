@@ -4,7 +4,7 @@ const morgan = require('morgan')
 const createError = require('http-errors')
 const path = require('path')
 
-const VisitorRoute = require('./routes/notebook')
+const NotebookRoute = require('./routes/notebook')
 
 const PORT = process.env.PORT || 3000
 const hostname = 'localhost'
@@ -13,6 +13,7 @@ const app = express()
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 
 app.use(morgan('dev'))
 app.use(express.json())
@@ -27,7 +28,7 @@ mongoose.connect(`mongodb+srv://${db.user}:${db.password}@${db.host}/${db.databa
 
 //mongodb+srv://mjkcool:<password>@notebook.u6oi4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
-app.use('/', VisitorRoute)
+app.use('/', NotebookRoute)
 
 app.listen(PORT, () => {
     console.log(`Server running at http://${hostname}:${PORT}/`)

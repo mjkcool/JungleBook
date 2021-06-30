@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>움직여요 미림의 숲</title>
+
+</head>
+<body>
+    
+    <h1>방명록</h1>
+    <div>
+        <div id="page-l-pa" class="page">
+            <div id="page-l"></div>
+            <div id="toPre"><button id="toPrePage-btn" onclick="toPrePage()"><</button></div>
+        </div>
+        <div id="page-r-pa" class="page">
+            <div id="page-r"></div>
+            <div id="toNext"><button id="toNextPage-btn" onclick="toNextPage()">></button></div>
+        </div>
+    </div>
+</body>
+
+<template id="formhtml">
+    <form method="POST" id="visitorbook">
+        <input id="bookinput" type="text" name="text" placeholder="" required/>
+        <button type="submit">작성</button>
+    </form>
+</template>
+
+<script type="text/javascript">
+    let idx_l=0, idx_r=0
+    let left_p=-1, right_p=-1
+    let l_currentPage = left_p, r_currentPage = right_p
+    const renderForm = ()=>{
+        if(l_currentPage<left_p) $("#toNext").show() 
+        else $("#toNext").hide()
+        if(l_currentPage>0) $("#toPre").show()
+        else $("#toPre").hide()
+        //render form
+        if(l_currentPage==left_p && r_currentPage==right_p) $("#visitorbook").show()
+        else $("#visitorbook").hide()
+    }
+    let toPrePage = ()=>{
+        $(`#left_p${l_currentPage}`).hide()
+        $(`#left_p${--l_currentPage}`).show()
+        $(`#right_p${r_currentPage}`).hide()
+        $(`#right_p${--r_currentPage}`).show()
+        renderForm()
+    }
+    let toNextPage  = ()=>{
+        $(`#left_p${l_currentPage}`).hide()
+        $(`#left_p${++l_currentPage}`).show()
+        $(`#right_p${r_currentPage}`).hide()
+        $(`#right_p${++r_currentPage}`).show()
+        renderForm()
+    }
+    $( document ).ready(function() {
+        //https://gist.github.com/ageldama/4173461
+        <% notebooks.forEach(function(e){ %>
+            if(idx_l++ < 7)
+            {
+                if(left_p<=-1) $("#page-l").append(`<div id="left_p${++left_p}">`)
+                $(`#left_p${left_p}`).append("<%= e.text %><br>")
+            }
+            else if(idx_r++ < 7)
+            {
+                if(right_p<=-1) $("#page-r").append(`<div id="right_p${++right_p}">`)
+                $(`#right_p${right_p}`).append("<%= e.text %><br>")
+                if(idx_r>=7){ //7개일때 다음페이지로
+                    idx_l = 0; idx_r = 0;
+                    $(`#left_p${left_p}`).hide()
+                    $(`#right_p${right_p}`).hide()
+                    $("#page-l").append(`<div id="left_p${++left_p}">`)
+                    $("#page-r").append(`<div id="right_p${++right_p}">`)
+                }
+            }
+            
+        <% }) %>
+        l_currentPage = left_p
+        r_currentPage = right_p
+        //render form
+        let lastpage;
+        let formhtml = $("#formhtml").html()
+        if(idx_r<=0) lastpage = $('#page-l-pa')
+        else lastpage = $('#page-r-pa')
+        lastpage.append(formhtml)
+        renderForm()
+    })
+</script>
+</html>

@@ -1,33 +1,44 @@
 const { response } = require('express')
 const Notebook = require('../models/Notebook')
 
-//Show the list of Notebooks
 const index = (req, res) => {
+    return res.render('index')
+}
+
+//Show the list of Notebooks
+const viewall = (req, res) => {
     return Notebook.find()
     .then(response=>{
-        res.render('index.ejs', {notebooks:response})
+        res.render('notebook', {notebooks:response})
     })
     .catch(error => {
-        console.log(err)
+        console.log(error)
     })
 
 }
 
+const show = (req, res, next) => {
+    return res.send(req.params.name)
+}
+
+
 //Show single visitor
-// const show = (req, res, next) => {
-//     let visitorID = req.body.visitorID
-//     Visitor.findById(visitorID)
-//     .then(response => {
-//         res.json({
-//             response
-//         })
-//     })
-//     .catch(error => {
-//         res.json({
-//             message: 'An error Occured!'
-//         })
-//     })
-// }
+/*
+const show = (req, res, next) => {
+    let visitorID = req.body.visitorID
+    Visitor.findById(visitorID)
+    .then(response => {
+        res.json({
+            response
+        })
+    })
+    .catch(error => {
+        res.json({
+            message: 'An error Occured!'
+        })
+    })
+}
+*/
 
 const insert = (req, res, next) => {
     console.log('add Visitor text POST '+req.body.text)
@@ -35,7 +46,7 @@ const insert = (req, res, next) => {
     let notebook = new Notebook(req.body)
     return notebook.save()
     .then(response => {
-        res.redirect('/')
+        res.redirect('/all')
     })
     .catch(error => {
         res.json({
@@ -45,5 +56,5 @@ const insert = (req, res, next) => {
 }
 
 module.exports = {
-    index, insert
+    index, insert, show, viewall
 }
