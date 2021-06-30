@@ -4,7 +4,7 @@ const morgan = require('morgan')
 const createError = require('http-errors')
 const path = require('path')
 
-const VisitorRoute = require('./routes/visitor')
+const VisitorRoute = require('./routes/notebook')
 
 const PORT = process.env.PORT || 3000
 const hostname = 'localhost'
@@ -21,7 +21,7 @@ app.use(express.static(__dirname + '/static'));
 
 const db = require('./config/dbconfig.json')
 mongoose.Promise = global.Promise
-mongoose.connect(`mongodb+srv://${db.user}:${db.password}@${db.host}/${db.database}`, {useNewUrlParser:true, useUnifiedTopology: true})
+mongoose.connect(`mongodb+srv://${db.user}:${db.password}@${db.host}/${db.database}?retryWrites=true&w=majority`, {useNewUrlParser:true, useUnifiedTopology: true})
 .then(()=>console.log('DB connected'))
 .catch((err)=>console.error(err))
 

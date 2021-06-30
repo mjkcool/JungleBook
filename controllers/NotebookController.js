@@ -1,11 +1,11 @@
 const { response } = require('express')
-const Visitor = require('../models/Visitor')
+const Notebook = require('../models/Notebook')
 
-//Show the list of Visitors
+//Show the list of Notebooks
 const index = (req, res) => {
-    return Visitor.find()
+    return Notebook.find()
     .then(response=>{
-        res.render('index.ejs', {visitors:response})
+        res.render('index.ejs', {notebooks:response})
     })
     .catch(error => {
         console.log(err)
@@ -32,8 +32,8 @@ const index = (req, res) => {
 const insert = (req, res, next) => {
     console.log('add Visitor text POST '+req.body.text)
     console.log(req.body)
-    let visitor = new Visitor(req.body)
-    return visitor.save()
+    let notebook = new Notebook(req.body)
+    return notebook.save()
     .then(response => {
         res.redirect('/')
     })
