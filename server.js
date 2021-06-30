@@ -21,9 +21,11 @@ app.use(express.static(__dirname + '/static'));
 
 const db = require('./config/dbconfig.json')
 mongoose.Promise = global.Promise
-mongoose.connect(`mongodb://${db.user}:${db.password}@${db.host}:${db.port}/${db.database}`, {useNewUrlParser:true, useUnifiedTopology: true})
+mongoose.connect(`mongodb+srv://${db.user}:${db.password}@${db.host}/${db.database}`, {useNewUrlParser:true, useUnifiedTopology: true})
 .then(()=>console.log('DB connected'))
 .catch((err)=>console.error(err))
+
+//mongodb+srv://mjkcool:<password>@notebook.u6oi4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
 app.use('/', VisitorRoute)
 

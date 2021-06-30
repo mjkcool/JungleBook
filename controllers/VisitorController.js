@@ -5,7 +5,7 @@ const Visitor = require('../models/Visitor')
 const index = (req, res) => {
     return Visitor.find()
     .then(response=>{
-        res.render('index', {visitors:response})
+        res.render('index.ejs', {visitors:response})
     })
     .catch(error => {
         console.log(err)
