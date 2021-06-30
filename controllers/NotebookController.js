@@ -40,6 +40,12 @@ const show = (req, res, next) => {
 }
 */
 
+const create = (req, res, next) => {
+    //let notebook = new Notebook(req.body)
+    alert(req.query)
+    return res.send(req.query.name)
+}
+
 const insert = (req, res, next) => {
     console.log('add Visitor text POST '+req.body.text)
     console.log(req.body)
@@ -56,5 +62,5 @@ const insert = (req, res, next) => {
 }
 
 module.exports = {
-    index, insert, show, viewall
+    index, insert, show, viewall, create
 }

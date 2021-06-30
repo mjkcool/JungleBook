@@ -8,7 +8,7 @@ const wordSchema = new Schema({
 })
 
 const NotebookSchema = new Schema({
-    title: { type: String, required: true, unique: true, lowercase: true },
+    name: { type: String, required: true, unique: true, lowercase: true },
     wordlist: { type: [wordSchema], default: []},
     createDate: { type: Date, required: true, default: Date.now }
 })
