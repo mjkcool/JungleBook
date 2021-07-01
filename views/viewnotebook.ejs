@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JungleBook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./css/app.css"/>
+    <link rel="icon" href="./webcon.ico"/>
+    <link rel="apple-touch-icon" href="./weblogo512.png"/>
+    <link rel="manifest" href="./manifest.json"/>
+
+    <style>
+    body {
+      margin: 0;
+      font-family: "Lato", sans-serif;
+    }
+    
+    .sidebar {
+      margin: 0;
+      padding: 0;
+      top: 0;
+      width: 250px;
+      background-color: #FFEFB7;
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+    }
+    
+    .sidebar button.word {
+        text-align: left;
+        cursor: pointer;
+        width: 100%;
+        display: block;
+        color: black;
+        padding: 16px;
+        text-decoration: none;
+        border: none;
+        outline: none;
+    }
+     
+    .sidebar button.word.active {
+      background-color: #46aa04;
+      color: white;
+    }
+    
+    .sidebar button.word:hover:not(.active) {
+      background-color: #555;
+      color: white;
+    }
+    
+    div.content {
+      margin-left: 250px;
+      height: 100%;
+      position: relative;
+      
+    }
+
+    div.content .front{
+      padding: 25px;
+      position: absolute;
+    }
+
+    div.content .doc{
+      margin: 200px 100px;
+      position: absolute;
+    }
+    
+    @media screen and (max-width: 700px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .sidebar button.word {float: left;}
+      div.content {margin-left: 0;}
+    }
+    
+    @media screen and (max-width: 400px) {
+      .sidebar button.word {
+        text-align: center;
+        float: none;
+      }
+    }
+    </style>
+    </head>
+    <body>
+        <div class="modal fade" id="addWordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addWordModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addWordModalLabel">Create new Notebook</h5>
+                </div>
+                <form method="POST" >
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">Word</label>
+                      <input type="text" name="word" class="form-control" required/>
+                      <label for="recipient-name" class="col-form-label">Meaning</label>
+                      <input type="text" name="meaning" class="form-control"/>
+                      <label for="recipient-name" class="col-form-label">Description</label>
+                      <input type="text" name="description" class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button id="add-word-btn" type="submit" class="btn btn-primary">Add</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+        </div>
+    
+        <div class="sidebar" id="wordlist">
+          
+          <button class="word active" id="first">Home</button>
+
+          
+
+          <button>Del</button>
+          <button data-bs-toggle="modal" data-bs-target="#addWordModal">Add</button>
+        </div>
+        
+        <div class="content">
+          <h5 class="front">notebook name:<br><%= result[0].name %></h5>
+          <h5 class="front" style="right: 0;">Exit</h5>
+          <div class="doc">
+            <div id="txt-word">[word]</div>
+            <div id="txt-meaning">[meaning]</div>
+            <div id="txt-description">[description]</div>
+          </div>
+          
+        <p></p>
+        
+        </div>
+        
+    </body>
+    <script>
+      let wordlist = []
+
+      <% result[0].words.forEach((word)=>{  %>
+        wordlist.push({
+          word: '<%= word.word %>',
+          meaning: '<%= word.meaning %>',
+          description: '<%= word.description %>'
+        })
+        $('#wordlist').append('<button class="word" onclick="view($(this).text())"><%= word.word %></button>')
+      <% }) %>
+
+      console.log(wordlist)
+      
+      function view(word){
+        let idx = wordlist.findIndex(e => e.word == word)
+        $('#txt-word').text(word)
+        $('#txt-meaning').text(wordlist[idx].meaning)
+        $('#txt-description').text(wordlist[idx].description)
+      }
+
+    </script>
+</html>

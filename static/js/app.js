@@ -13,7 +13,7 @@ else alert(ERR_MSG)
 
 function openBook(){
     let bookName = $('#input-bookname').val()
-    //let spaceRemoved = bookName.replace(/ /g,"")
+    //let spaceRemoved = bookName.replace(/ /g,"")\
     location.href = `/${bookName}`
 }
 

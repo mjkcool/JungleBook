@@ -11,7 +11,7 @@ const index = (req, res) => {
 const viewall = (req, res) => {
     return Notebook.find()
     .then(response=>{
-        res.render('notebook', {notebooks:response})
+        res.render('notebook-ex', {notebooks:response})
     })
     .catch(error => {
         console.log(error)
@@ -20,7 +20,15 @@ const viewall = (req, res) => {
 }
 
 const show = (req, res, next) => {
-    return res.send(req.params.name)
+    let bookname = req.params.name
+    return Notebook.find({name: bookname})
+    .then(response=>{
+        res.render('viewnotebook', {result:response})
+    })
+    .catch(error => {
+        res.render("index")
+    })
+    //return res.render('viewnotebook', {result:req.params.name})
 }
 
 
@@ -47,11 +55,11 @@ const create = (req, res, next) => {
     //return res.send(JSON.stringify(notebook))
     return notebook.save()
     .then(response => {
-        res.send(notebook.name)
+        res.redirect(`../${notebook.name}`)
     })
     .catch(err =>{
-        alert(ERR_MSG)
-        res.json({ message: err })
+        //res.json({ message: err })
+        
     })
 
 }
@@ -71,6 +79,27 @@ const insert = (req, res, next) => {
     })
 }
 
+const addWord = (req, res, next) => {
+    let wordset = {
+        word: req.body.word,
+        meaning: req.body.meaning,
+        description: req.body.description
+    }
+    let bookname = req.params.name
+    return Notebook.findOneAndUpdate(
+        { name: bookname }, 
+        { $push: { words: wordset } },
+        function (error, success) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(success);
+                res.redirect(`/${bookname}`)
+            }
+        }
+    );
+}
+
 module.exports = {
-    index, insert, show, viewall, create
+    index, insert, show, viewall, create, addWord
 }

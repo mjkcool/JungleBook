@@ -8,10 +8,13 @@ router.route('/').get(NotebookController.index)
 router.route('/all')
 .get(NotebookController.viewall) //get home
 .post(NotebookController.insert)
-//router.post('/insert', )
 
 //노트북 조회
-router.route('/:name').get(NotebookController.show)
+router.route('/:name')
+.get(NotebookController.show)
+.post(NotebookController.addWord)
+
 router.route('/create/:name').get(NotebookController.create)
+
 
 module.exports = router
