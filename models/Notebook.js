@@ -1,9 +1,15 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
 
+const wordSchema = new Schema({
+    word:{ type: String, required: true },
+    meaning: String,
+    description: String
+})
+
 const NotebookSchema = new Schema({
     name: { type: String, required: true, lowercase: true, unique: true },
-    words: { type: {id: Int, word: String, meaning: String, description: String}, default: []},
+    words: { type: [wordSchema], default: []},
     createDate: { type: Date, required: true, default: Date.now }
 })
 

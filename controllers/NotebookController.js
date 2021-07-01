@@ -80,12 +80,19 @@ const insert = (req, res, next) => {
 }
 
 const addWord = (req, res, next) => {
+    // let wordset = {
+    //     word: req.body.word,
+    //     meaning: req.body.meaning,
+    //     description: req.body.description
+    // }
+    let bookname = req.params.name
+    
     let wordset = {
         word: req.body.word,
         meaning: req.body.meaning,
         description: req.body.description
     }
-    let bookname = req.params.name
+
     return Notebook.findOneAndUpdate(
         { name: bookname }, 
         { $push: { words: wordset } }
@@ -106,7 +113,7 @@ const deleteWord = (req, res, next) => {
     //에러
     return Notebook.findOneAndUpdate(
         { name: bookname },
-        { $pull: { words: { id: id } } }
+        { $pull: { words: { _id: id } } }
     )
     .then(response => {
         res.redirect(`/${bookname}`)

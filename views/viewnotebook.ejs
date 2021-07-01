@@ -51,15 +51,15 @@
               <div id="txt-description">[description]</div>
             </div>
           </div>
-          <h5 class="front">notebook name:<br><%= result[0].name %></h5>
-          <h5 class="front" style="right: 0;">Guide</h5>
+          <h5 class="front" id="notebookname">Notebook name:<br><%= result[0].name %></h5>
+          <h5 class="front btn sform" style="right: 0;">Guide</h5>
         
         </div>
         <div class="sidebar" id="wordlist">
           <div id="home" onclick="location.href='/'">Home</div>
-
-          
-          <button id="addbtn" data-bs-toggle="modal" data-bs-target="#addWordModal">Add</button>
+          <div id="addbtn" class="word" data-bs-toggle="modal" data-bs-target="#addWordModal">
+            &nbsp;<button class="del-word" style="font-size: smaller;">╋</button>
+          </div>
         </div>
         
     </body>
@@ -72,28 +72,37 @@
 
       <% result[0].words.forEach((word)=>{  %>
         wordlist.push({
-          id: '<%= word.idx %>',
+          id: '<%= word._id %>',
           word: '<%= word.word %>',
           meaning: '<%= word.meaning %>',
           description: '<%= word.description %>'
         })
 
-        $('#addbtn').before(
-          '<div class="word" onclick=view("<%=word.idx%>")>'
-          +'<span id="listitemtxt"><%= word.word %></span><button class="del-word" onclick=deleteWord("<%=word.idx%>")>⨉</button>'
+        $('.sidebar').append(
+          '<div class="word" onclick=view("<%=word._id%>")>'
+          +'<span id="listitemtxt"><%= word.word %></span><button class="del-word" onclick=deleteWord("<%=word._id%>")>⨉</button>'
           +'</div>')
       <% }) %>
+
       
       function view(id){
+        // ele.className += " active"
+
         let idx = wordlist.findIndex(e => e.id == id)
-        $('#txt-word').text(wordlist[idx].wordlist)
+        $('#txt-word').text(wordlist[idx].word)
         $('#txt-meaning').text(wordlist[idx].meaning)
         $('#txt-description').text(wordlist[idx].description)
+
       }
 
       function deleteWord(id){
+        
         location.href = `/${bookname}/delete/${id}`
       }
+
+
+
+      if($('.word').length >= 2) $('.word:eq(1)').click()
 
     </script>
     <script src="./js/setbgimg.js"></script>
