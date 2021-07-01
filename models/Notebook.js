@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const NotebookSchema = new Schema({
     name: { type: String, required: true, lowercase: true, unique: true },
-    words: { type: {word: String, meaning: String, description: String}, default: []},
+    words: { type: {id: Int, word: String, meaning: String, description: String}, default: []},
     createDate: { type: Date, required: true, default: Date.now }
 })
 

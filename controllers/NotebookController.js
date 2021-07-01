@@ -88,18 +88,36 @@ const addWord = (req, res, next) => {
     let bookname = req.params.name
     return Notebook.findOneAndUpdate(
         { name: bookname }, 
-        { $push: { words: wordset } },
-        function (error, success) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(success);
-                res.redirect(`/${bookname}`)
-            }
-        }
-    );
+        { $push: { words: wordset } }
+    )
+    .then(response => {
+        res.redirect(`/${bookname}`)
+    })
+    .catch(error => {
+        res.json({
+            message: error
+        })
+    })
+}
+
+const deleteWord = (req, res, next) => {
+    let bookname = req.params.name
+    let id = req.params.id
+    //에러
+    return Notebook.findOneAndUpdate(
+        { name: bookname },
+        { $pull: { words: { id: id } } }
+    )
+    .then(response => {
+        res.redirect(`/${bookname}`)
+    })
+    .catch(error => {
+        res.json({
+            message: error
+        })
+    })
 }
 
 module.exports = {
-    index, insert, show, viewall, create, addWord
+    index, insert, show, viewall, create, addWord, deleteWord
 }

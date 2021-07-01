@@ -1,0 +1,98 @@
+.sidebar {
+    margin: 0;
+    padding: 0;
+    top: 0;
+    width: 250px;
+    background-color: #FFEFB7;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+.sidebar div.word {
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    color: black;
+    background-color: #FFE484;
+    padding: 16px;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    position: relative;
+}
+
+#home{
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    color: black;
+    background-color: #C2D741;
+    padding: 16px;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    position: relative;
+}
+
+.del-word{
+    position: absolute;
+    right: 10px;
+    background: none;
+    outline: none;
+    border: none;
+    color: rgba(0, 0, 0, 0.5);
+    /* visibility: hidden; */
+}
+
+.sidebar div.word.active {
+    background-color: #C2D741;
+}
+
+.sidebar div.word:hover:not(.active) {
+    background-color: #C2D741;
+}
+
+div.content {
+    margin-left: 250px;
+    position: relative;
+}
+
+div.content .front{
+    padding: 25px;
+    position: absolute;
+}
+
+div.content .doc{
+    background-image: url('./../img/note.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 50vw;
+    height: 34vw;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, 22%);
+}
+
+div.content .doc .textview{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-40%, -62%);
+    text-align: center;
+}
+
+#txt-word{
+    font-size: 55px;
+    margin-bottom: 5px;
+}
+
+#txt-meaning{
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+#txt-description{
+    font-size: 25px;
+}

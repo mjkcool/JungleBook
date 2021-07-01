@@ -16,5 +16,6 @@ router.route('/:name')
 
 router.route('/create/:name').get(NotebookController.create)
 
+router.route('/:name/delete/:word').get(NotebookController.deleteWord)
 
 module.exports = router
