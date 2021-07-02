@@ -11,24 +11,22 @@ const hostname = 'localhost'
 
 const app = express()
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-app.engine('html', require('ejs').renderFile);
+app.set('views', __dirname + '/views')
+app.set('view engine', 'ejs')
+app.engine('html', require('ejs').renderFile)
 
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
-app.use(express.static(__dirname + '/static'));
+app.use(express.static(__dirname + '/static'))
 
-const db = require('./config/dbconfig.json')
+const db = require('./config/dbconfig.json') // **gitignored
 mongoose.Promise = global.Promise
 mongoose.connect(`mongodb+srv://${db.user}:${db.password}@${db.host}/${db.database}?retryWrites=true&w=majority`, {useNewUrlParser:true, useUnifiedTopology: true})
 .then(()=>console.log('DB connected'))
 .catch((err)=>console.error(err))
 
-//mongodb+srv://mjkcool:<password>@notebook.u6oi4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-
-app.use('/', NotebookRoute)
+app.use('/', NotebookRoute) // Set routing
 
 app.listen(PORT, () => {
     console.log(`Server running at http://${hostname}:${PORT}/`)
