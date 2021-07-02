@@ -69,7 +69,6 @@
       let bookname = "<%= result[0].name %>"
       let wordlist = []
 
-
       <% result[0].words.forEach((word)=>{  %>
         wordlist.push({
           id: '<%= word._id %>',
@@ -87,23 +86,17 @@
       
       function view(id){
         // ele.className += " active"
-
         let idx = wordlist.findIndex(e => e.id == id)
         $('#txt-word').text(wordlist[idx].word)
         $('#txt-meaning').text(wordlist[idx].meaning)
         $('#txt-description').text(wordlist[idx].description)
-
       }
 
       function deleteWord(id){
-        
         location.href = `/${bookname}/delete/${id}`
       }
 
-
-
       if($('.word').length >= 2) $('.word:eq(1)').click()
-
     </script>
     <script src="./js/setbgimg.js"></script>
 </html>

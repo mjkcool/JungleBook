@@ -1,92 +1,45 @@
 const { response } = require('express')
-const Notebook = require('../models/Notebook')
+const Notebook = require('../models/Notebook') // schema model
 
 const ERR_MSG = "오류가 발생했습니다😥 잠시 후 다시 접속해주세요!"
 
+// Backto index
 const index = (req, res) => {
     return res.render('index')
 }
 
-//Show the list of Notebooks
-const viewall = (req, res) => {
-    return Notebook.find()
-    .then(response=>{
-        res.render('notebook-ex', {notebooks:response})
-    })
-    .catch(error => {
-        console.log(error)
-    })
-
-}
-
+// Open notebook from index
 const show = (req, res, next) => {
     let bookname = req.params.name
+
     return Notebook.find({name: bookname})
     .then(response=>{
-        res.render('viewnotebook', {result:response})
+        res.render('viewnotebook', {result:response}) // move and render
     })
-    .catch(error => {
+    .catch(err => {
         res.render("index")
     })
-    //return res.render('viewnotebook', {result:req.params.name})
 }
 
-
-//Show single visitor
-/*
-const show = (req, res, next) => {
-    let visitorID = req.body.visitorID
-    Visitor.findById(visitorID)
-    .then(response => {
-        res.json({
-            response
-        })
-    })
-    .catch(error => {
-        res.json({
-            message: 'An error Occured!'
-        })
-    })
-}
-*/
-
+// Create Notebook from index
 const create = (req, res, next) => {
+    // Create schema model Object
     let notebook = new Notebook({name: req.params.name, createDate: Date.now()})
-    //return res.send(JSON.stringify(notebook))
+    
     return notebook.save()
     .then(response => {
+        // Create and open
         res.redirect(`../${notebook.name}`)
     })
     .catch(err =>{
-        //res.json({ message: err })
-        
+        res.json({ message: err })
     })
 
 }
 
-const insert = (req, res, next) => {
-    console.log('add Visitor text POST '+req.body.text)
-    console.log(req.body)
-    let notebook = new Notebook(req.body)
-    return notebook.save()
-    .then(response => {
-        res.redirect('/all')
-    })
-    .catch(error => {
-        res.json({
-            message: '방명록 등록에 실패하였습니다'
-        })
-    })
-}
-
+// Add a word from viewnotebook
 const addWord = (req, res, next) => {
-    // let wordset = {
-    //     word: req.body.word,
-    //     meaning: req.body.meaning,
-    //     description: req.body.description
-    // }
     let bookname = req.params.name
-    
     let wordset = {
         word: req.body.word,
         meaning: req.body.meaning,
@@ -94,37 +47,34 @@ const addWord = (req, res, next) => {
     }
 
     return Notebook.findOneAndUpdate(
-        { name: bookname }, 
-        { $push: { words: wordset } }
+        { name: bookname }, // current notebook
+        { $push: { words: wordset } } // Push word to wordlist
     )
     .then(response => {
-        res.redirect(`/${bookname}`)
+        res.redirect(`/${bookname}`) // refresh
     })
-    .catch(error => {
-        res.json({
-            message: error
-        })
+    .catch(err => {
+        res.json({ message: err })
     })
 }
 
+// delete word that seleted
 const deleteWord = (req, res, next) => {
     let bookname = req.params.name
-    let id = req.params.id
-    //에러
+    let id = req.params.id // id of word that will delete
+
     return Notebook.findOneAndUpdate(
-        { name: bookname },
+        { name: bookname }, // current notebook
         { $pull: { words: { _id: id } } }
     )
     .then(response => {
-        res.redirect(`/${bookname}`)
+        res.redirect(`/${bookname}`) // refresh
     })
-    .catch(error => {
-        res.json({
-            message: error
-        })
+    .catch(err => {
+        res.json({ message: err })
     })
 }
 
 module.exports = {
-    index, insert, show, viewall, create, addWord, deleteWord
+    index, show, create, addWord, deleteWord
 }

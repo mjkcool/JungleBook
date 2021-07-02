@@ -4,18 +4,15 @@ const NotebookController = require('../controllers/NotebookController')
 
 router.route('/').get(NotebookController.index)
 
-//테스트용 전체 조회
-router.route('/all')
-.get(NotebookController.viewall) //get home
-.post(NotebookController.insert)
-
-//노트북 조회
+// View notebook
 router.route('/:name')
-.get(NotebookController.show)
-.post(NotebookController.addWord)
+.get(NotebookController.show) // Show all
+.post(NotebookController.addWord) // Add a word
 
+// Create new notebook
 router.route('/create/:name').get(NotebookController.create)
 
+// Delete word using _id
 router.route('/:name/delete/:id').get(NotebookController.deleteWord)
 
 module.exports = router
