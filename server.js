@@ -26,8 +26,6 @@ mongoose.connect(`mongodb+srv://${db.user}:${db.password}@${db.host}/${db.databa
 .then(()=>console.log('DB connected'))
 .catch((err)=>console.error(err))
 
-//mongodb+srv://mjkcool:<password>@notebook.u6oi4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-
 app.use('/', NotebookRoute)
 
 app.listen(PORT, () => {

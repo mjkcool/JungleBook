@@ -110,7 +110,6 @@ const addWord = (req, res, next) => {
 const deleteWord = (req, res, next) => {
     let bookname = req.params.name
     let id = req.params.id
-    //에러
     return Notebook.findOneAndUpdate(
         { name: bookname },
         { $pull: { words: { _id: id } } }
